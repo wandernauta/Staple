@@ -1,0 +1,8 @@
+Staple
+============================================================================
+
+**Staple** is a minimalistic ('esoteric'), interpreted language based around
+the idea of stacks. It remotely resembles languages like Forth and Factor,
+and uses postfix notation everywhere.
+
+
