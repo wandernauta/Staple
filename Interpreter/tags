@@ -1,0 +1,62 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ASCII_A	symenc.c	12;"	d	file:
+ASCII_Z	symenc.c	13;"	d	file:
+FLOAT	dvalue.h	/^  FLOAT = 2,$/;"	e	enum:type
+INTEGER	dvalue.h	/^  INTEGER = 1,$/;"	e	enum:type
+LIST	dvalue.h	/^  LIST = 6$/;"	e	enum:type
+MAJOR	staple.h	25;"	d
+MAXCHARS	symenc.c	16;"	d	file:
+MINOR	staple.h	26;"	d
+OP	dvalue.h	/^  OP = 5,$/;"	e	enum:type
+STRING	dvalue.h	/^  STRING = 3,$/;"	e	enum:type
+SYMBITS	symenc.c	14;"	d	file:
+SYMBOL	dvalue.h	/^  SYMBOL = 4,$/;"	e	enum:type
+WIDTH	symenc.c	15;"	d	file:
+a	dvalue.h	/^  void* a;      \/\/ Dynamic array pointer $/;"	m	union:data
+cap	darray.h	/^  int cap;  \/\/ The amount of dvalue_t pointers it can store$/;"	m	struct:darray
+d	dvalue.h	/^  union data d;$/;"	m	struct:dvalue	typeref:union:dvalue::data
+da_free	darray.c	/^void da_free(darray_t* arr) {$/;"	f
+da_get	darray.c	/^dvalue_t* da_get(darray_t* arr, int i) {$/;"	f
+da_init	darray.c	/^darray_t* da_init() {$/;"	f
+da_next	darray.c	/^dvalue_t* da_next(darray_t* arr) {$/;"	f
+da_pop	darray.c	/^void da_pop(darray_t* arr) {$/;"	f
+da_push	darray.c	/^void da_push(darray_t* arr, dvalue_t* val) {$/;"	f
+da_top	darray.c	/^dvalue_t* da_top(darray_t* arr) {$/;"	f
+darray	darray.h	/^struct darray {$/;"	s
+darray_t	darray.h	/^typedef struct darray darray_t;$/;"	t	typeref:struct:darray
+data	darray.h	/^  dvalue_t** data;$/;"	m	struct:darray
+data	dvalue.h	/^union data {$/;"	u
+dv_describe	dvalue.c	/^char* dv_describe(dvalue_t* val) {$/;"	f
+dv_float	dvalue.c	/^dvalue_t* dv_float(double f) {$/;"	f
+dv_free	dvalue.c	/^void dv_free(dvalue_t* val) {$/;"	f
+dv_init	dvalue.c	/^dvalue_t* dv_init() {$/;"	f
+dv_int	dvalue.c	/^dvalue_t* dv_int(int64_t i) {$/;"	f
+dv_list	dvalue.c	/^dvalue_t* dv_list(void* a) {$/;"	f
+dv_op	dvalue.c	/^dvalue_t* dv_op(char* op) {$/;"	f
+dv_string	dvalue.c	/^dvalue_t* dv_string(char* str) {$/;"	f
+dv_symbol	dvalue.c	/^dvalue_t* dv_symbol(char* sym) {$/;"	f
+dvalue	dvalue.h	/^struct dvalue {$/;"	s
+dvalue_t	dvalue.h	/^typedef struct dvalue dvalue_t;$/;"	t	typeref:struct:dvalue
+endswith	parser.c	/^bool endswith(char* str, char chr) {$/;"	f
+equals	parser.c	/^bool equals(char* a, char* b) {$/;"	f
+execute	runner.c	/^bool execute(darray_t* code, darray_t* stack, darray_t* defs) {$/;"	f
+f	dvalue.h	/^  double f;     \/\/ Floating-point value$/;"	m	union:data
+handle_op	runner.c	/^bool handle_op(dvalue_t* tok, darray_t* stack, darray_t* defs) {$/;"	f
+i	dvalue.h	/^  int64_t i;    \/\/ Signed integer value$/;"	m	union:data
+isnumeric	parser.c	/^bool isnumeric(char* str) {$/;"	f
+main	staple.c	/^int main(int argc, char** argv) {$/;"	f
+parse	parser.c	/^darray_t* parse(char* code, darray_t* defs) {$/;"	f
+pos	darray.h	/^  int pos;  \/\/ The position of the read head$/;"	m	struct:darray
+s	dvalue.h	/^  char* s;      \/\/ C-string pointer$/;"	m	union:data
+size	darray.h	/^  int size; \/\/ The amount of dvalue_t pointers in the array$/;"	m	struct:darray
+startswith	parser.c	/^bool startswith(char* str, char chr) {$/;"	f
+sym	dvalue.h	/^  uint64_t sym; \/\/ Symbol$/;"	m	union:data
+symbol_decode	symenc.c	/^char* symbol_decode(uint64_t sym64) {$/;"	f
+symbol_encode	symenc.c	/^uint64_t symbol_encode(char* ascii) {$/;"	f
+t	dvalue.h	/^  enum type t;$/;"	m	struct:dvalue	typeref:enum:dvalue::type
+type	dvalue.h	/^enum type {$/;"	g
