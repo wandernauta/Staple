@@ -1,4 +1,4 @@
-// 
+//
 // darray.c
 // Implementation for the Staple dynamic array (list/stack)
 //

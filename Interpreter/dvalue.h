@@ -1,4 +1,4 @@
-// 
+//
 // dvalue.h
 // Header file for the Staple dynamic value implementation. 
 //

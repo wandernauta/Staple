@@ -1,4 +1,4 @@
-// 
+//
 // staple.c
 // Main entry point for the Staple language interpreter
 //
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
         if (line[0] != '\0') {
             printf(": %s\n", line);
             linenoiseHistoryAdd(line);
-            linenoiseHistorySave(exp_result.we_wordv[0]); 
+            linenoiseHistorySave(exp_result.we_wordv[0]);
         }
         free(line);
     }

@@ -1,4 +1,4 @@
-// 
+//
 // symenc.c
 // Functions for encoding a symbol into 64 bits
 //
@@ -26,7 +26,7 @@ uint64_t symbol_encode(char* ascii) {
 
     // Lowercase the character
     ascii[i] = tolower(ascii[i]);
-    
+
     // Treat some ASCII values specially
     if (ascii[i] == '\0') chr = 0;
     else if (ascii[i] == '_') chr = 1;
@@ -59,7 +59,7 @@ char* symbol_decode(uint64_t sym64) {
 
   for (int i = 0; i < MAXCHARS; i++) {
     // Mask the complete symbol with 0b11111 to get the lowest 5 bits
-    uint64_t sym5 = sym64 & 0x1F; 
+    uint64_t sym5 = sym64 & 0x1F;
 
     // Check if the string has ended (\0)
     if (sym5 == 0) break;
