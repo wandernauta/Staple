@@ -2,7 +2,32 @@ Staple
 ============================================================================
 
 **Staple** is a minimalistic ('esoteric'), interpreted language based around
-the idea of stacks. It remotely resembles languages like Forth and Factor,
-and uses postfix notation everywhere.
+stack manipulation. It resembles languages like Forth and Factor, but also
+takes ideas from the likes of Lisp (code is data in Staple) and Ruby (Staple
+has symbols). Everything (*everything*) in Staple is in postfix notation.
 
+## What does Staple code look like?
 
+Here's a program that calculates the area of a circle:
+
+    [
+      -- Ask the user about their circle's radius, convert the input to int
+      println
+      "What's the radius of your circle?" prompt int
+
+      -- Multiply that with pi squared
+      3.14 dup * *
+
+      -- Print the result as a string
+      "Your circle's radius is about" print
+      string println
+    ] loop
+
+## What's different?
+
+Staple doesn't care about whether you use spaces, newlines or tabs, but
+whitespace is important in Staple. In other languages, `((4+2)==6)` may be
+perfectly valid - in Staple, it's `4 2 + 6 eq`, not `4 2+6 eq`.
+
+Staple will never automagically cast values from one type to another (not
+even integers to floating point values or booleans to integers).
