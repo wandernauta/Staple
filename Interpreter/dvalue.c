@@ -9,3 +9,10 @@
 
 #include "dvalue.h"
 
+dvalue_t* dv_init() {
+  return calloc(1, sizeof(dvalue_t));
+}
+
+void dv_free(dvalue_t* val) {
+  free(val);
+}
