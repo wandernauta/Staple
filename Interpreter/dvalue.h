@@ -10,6 +10,7 @@
 #pragma once
 
 #include <err.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,17 +22,19 @@ struct darray;
 void da_free(struct darray*);
 
 enum type {
-  INTEGER = 1,
-  FLOAT = 2,
-  STRING = 3,
-  SYMBOL = 4,
-  OP = 5,
-  LIST = 6
+  INTEGER,
+  FLOAT,
+  BOOL,
+  STRING,
+  SYMBOL,
+  OP,
+  LIST
 };
 
 union data {
   int64_t i;    // Signed integer value
   double f;     // Floating-point value
+  bool b;       // Boolean value
   char* s;      // C-string pointer
   void* a;      // Dynamic array pointer 
   uint64_t sym; // Symbol
@@ -47,9 +50,11 @@ typedef struct dvalue dvalue_t;
 dvalue_t* dv_init();
 void dv_free(dvalue_t* val);
 char* dv_describe(dvalue_t* val);
+char* dv_fmt(dvalue_t* val);
 
 dvalue_t* dv_int(int64_t);
 dvalue_t* dv_float(double);
+dvalue_t* dv_bool(bool);
 dvalue_t* dv_string(char*);
 dvalue_t* dv_symbol(char*);
 dvalue_t* dv_op(char*);

@@ -34,6 +34,8 @@ char* dv_describe(dvalue_t* val) {
       return "Integer";
     case FLOAT:
       return "Float";
+    case BOOL:
+      return "Boolean";
     case STRING:
       return "String";
     case SYMBOL:
@@ -42,6 +44,31 @@ char* dv_describe(dvalue_t* val) {
       return "Op";
     case LIST:
       return "List";
+    default:
+      return "Unknown value";
+  }
+}
+
+char* dv_fmt(dvalue_t* val) {
+  switch (val->t) {
+    case INTEGER:
+      return "Integer";
+    case FLOAT:
+      return "Float";
+    case BOOL:
+      if (val->d.b) {
+        return "true";
+      } else {
+        return "false";
+      }
+    case STRING:
+      return val->d.s;
+    case SYMBOL:
+      return symbol_decode(val->d.sym);
+    case OP:
+      return val->d.s;
+    case LIST:
+      return "[List]";
     default:
       return "Unknown value";
   }
@@ -58,6 +85,13 @@ dvalue_t* dv_float(double f) {
   dvalue_t* out = dv_init();
   out->t = FLOAT;
   out->d.f = f;
+  return out;
+}
+
+dvalue_t* dv_bool(bool b) {
+  dvalue_t* out = dv_init();
+  out->t = BOOL;
+  out->d.b = b;
   return out;
 }
 
