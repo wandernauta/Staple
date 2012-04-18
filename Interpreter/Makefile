@@ -1,4 +1,4 @@
-CFLAGS ?= -Wall -Wextra -pedantic -g -Os
+CFLAGS ?= -Wall -Wextra -pedantic -g
 
 all: staple
 staple: darray.o dvalue.o parser.o runner.o staple.o stdops.o symenc.o vendor/linenoise.o

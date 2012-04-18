@@ -9,7 +9,10 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 #include "darray.h"
 #include "dvalue.h"
 #include "stdops.h"
 
+bool execute(darray_t* code, darray_t* stack, darray_t* defs);

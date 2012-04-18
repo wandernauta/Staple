@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <wordexp.h>
 
+#include "darray.h"
 #include "parser.h"
 #include "runner.h"
 #include "vendor/linenoise.h"

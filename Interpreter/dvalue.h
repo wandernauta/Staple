@@ -9,16 +9,24 @@
 
 #pragma once
 
+#include <err.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "symenc.h"
+
+// Forward declarations for da_free
+struct darray;
+void da_free(struct darray*);
 
 enum type {
-  INTEGER,
-  FLOAT,
-  STRING,
-  SYMBOL,
-  CALL,
-  LIST
+  INTEGER = 1,
+  FLOAT = 2,
+  STRING = 3,
+  SYMBOL = 4,
+  OP = 5,
+  LIST = 6
 };
 
 union data {
@@ -26,8 +34,7 @@ union data {
   double f;     // Floating-point value
   char* s;      // C-string pointer
   void* a;      // Dynamic array pointer 
-  char sym[8];  // Symbol
-  char op[8];   // Operator/method call
+  uint64_t sym; // Symbol
 };
 
 struct dvalue {
@@ -39,3 +46,11 @@ typedef struct dvalue dvalue_t;
 
 dvalue_t* dv_init();
 void dv_free(dvalue_t* val);
+char* dv_describe(dvalue_t* val);
+
+dvalue_t* dv_int(int64_t);
+dvalue_t* dv_float(double);
+dvalue_t* dv_string(char*);
+dvalue_t* dv_symbol(char*);
+dvalue_t* dv_op(char*);
+dvalue_t* dv_list(void*);

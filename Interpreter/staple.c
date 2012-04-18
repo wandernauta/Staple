@@ -27,14 +27,17 @@ int main(int argc, char** argv) {
     linenoiseHistoryLoad(exp_result.we_wordv[0]);
 
     char* line;
+    darray_t* stack = da_init();
+    darray_t* defs = da_init();
 
     while((line = linenoise("staple> ")) != NULL) {
-        if (line[0] != '\0') {
-            printf(": %s\n", line);
-            linenoiseHistoryAdd(line);
-            linenoiseHistorySave(exp_result.we_wordv[0]);
-        }
-        free(line);
+      if (line[0] != '\0') {
+        darray_t* code = parse(line, defs);
+        execute(code, stack, defs);
+        linenoiseHistoryAdd(line);
+        linenoiseHistorySave(exp_result.we_wordv[0]);
+      }
+      free(line);
     }
 
     wordfree(&exp_result);

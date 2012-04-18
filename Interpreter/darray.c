@@ -10,14 +10,23 @@
 #include "darray.h"
 
 darray_t* da_init() {
-  return calloc(1, sizeof(darray_t));
+  darray_t* arr = calloc(1, sizeof(darray_t*));
+  arr->data = malloc(0);
+  return arr;
 }
 
 void da_push(darray_t* arr, dvalue_t* val) {
   if (arr->size < arr->cap) {
     arr->data[arr->size] = val;
   } else {
-    arr->data = realloc(arr->data, ((arr->size * 2) + 1) * sizeof(darray_t));
+    arr->cap  = ((arr->cap * 2) + 1);
+    arr->data = realloc(arr->data, ((arr->cap) * sizeof(darray_t*)));
+    
+    // Fill the cap with null pointers
+    for (dvalue_t** p = arr->data + arr->size; p < (arr->data + arr->cap); p++) {
+      *p = NULL;
+    }
+
     arr->data[arr->size] = val;
   }
 
@@ -30,15 +39,25 @@ void da_pop(darray_t* arr) {
 }
 
 dvalue_t* da_top(darray_t* arr) {
-  return arr->data[arr->size];
+  return arr->data[arr->size - 1];
 }
 
 dvalue_t* da_get(darray_t* arr, int i) {
   if (i >= 0) {
-    return arr->data[i];
+    if (i <= arr->size) {
+      return arr->data[i];
+    } else {
+      return NULL;
+    }
   } else {
     return arr->data[arr->size - (-i)];
   }
+}
+
+dvalue_t* da_next(darray_t* arr) {
+  dvalue_t* out = arr->data[arr->pos];
+  arr->pos += 1;
+  return out;
 }
 
 void da_free(darray_t* arr) {

@@ -9,6 +9,16 @@
 
 #pragma once
 
+#include <stdbool.h>
+#include <stdio.h> // TODO Remove this.
+#include <string.h>
+
 #include "darray.h"
 #include "dvalue.h"
 
+bool isnumeric(char* str);
+bool startswith(char* str, char chr);
+bool endswith(char* str, char chr);
+bool equals(char* a, char* b);
+
+darray_t* parse(char* code, darray_t* defs);
