@@ -33,7 +33,10 @@ darray_t* parse(char* code, darray_t* defs) {
   char* tok = strtok(code, " \t\n");
 
   while (tok) {
-    if (isnumeric(tok)) {
+    if (equals(tok, "--")) {
+      // This starts a comment. Skip until next newline.
+      strtok(code, "\n");
+    } else if (isnumeric(tok)) {
       // This is a number (integer or floating-point)
       da_push(out, dv_int(atoi(tok)));
     } else if (startswith(tok, ':')) {
