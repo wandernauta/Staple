@@ -31,3 +31,11 @@ perfectly valid - in Staple, it's `4 2 + 6 eq`, not `4 2+6 eq`.
 
 Staple will never automagically cast values from one type to another (not
 even integers to floating point values or booleans to integers).
+
+Everything in Staple is in postfix notation. 'if' is a no-op that exists
+for readability reasons, and carries no meaning at all for Staple.
+
+## Building
+
+To build the interpreter, just run `make` in the Interpreter directory.
+There is no `./configure`.
