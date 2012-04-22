@@ -502,7 +502,6 @@ bool op_println(darray_t* stk) {
 bool op_prompt(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   op_print(stk);
-  printf(" ");
   char* buf = malloc(255);
   fgets(buf, 255, stdin);
   da_push(stk, dv_string(buf));

@@ -33,9 +33,12 @@ darray_t* parse(char* code, darray_t* defs) {
   char* tok = strtok(code, " \t\n");
 
   while (tok) {
-    if (equals(tok, "--")) {
-      // This starts a comment. Skip until next newline.
-      strtok(code, "\n");
+    if (equals(tok, "/*")) {
+      // This starts a comment. Skip until closing comment marker.
+      while (1) {
+        tok = strtok(NULL, " \t\n");
+        if (equals(tok, "*/")) break;
+      }
     } else if (isnumeric(tok)) {
       // This is a number (integer or floating-point)
       if (strchr(tok, '.')) {
@@ -58,7 +61,6 @@ darray_t* parse(char* code, darray_t* defs) {
         str[off] = ' ';
         off += 1;
       }
-      str[off-1] = '\0';
       da_push(out, dv_string(str));
     } else if (equals(tok, "[")) {
       // This starts a list. Collect it.
