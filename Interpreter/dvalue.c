@@ -50,9 +50,13 @@ char* dv_describe(dvalue_t* val) {
 }
 
 char* dv_fmt(dvalue_t* val) {
+  char* out;
+
   switch (val->t) {
     case INTEGER:
-      return "Integer";
+      out = malloc(20);
+      snprintf(out, 20, "%lld", val->d.i);
+      return out;
     case FLOAT:
       return "Float";
     case BOOL:

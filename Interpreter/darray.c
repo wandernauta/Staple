@@ -34,8 +34,11 @@ void da_push(darray_t* arr, dvalue_t* val) {
 }
 
 void da_pop(darray_t* arr) {
-  dv_free(arr->data[arr->size]);
   arr->size -= 1; 
+  arr->data[arr->size] = NULL;
+}
+
+void da_swap(darray_t* arr) {
 }
 
 dvalue_t* da_top(darray_t* arr) {
@@ -58,6 +61,15 @@ dvalue_t* da_next(darray_t* arr) {
   dvalue_t* out = arr->data[arr->pos];
   arr->pos += 1;
   return out;
+}
+
+bool da_ensure(darray_t* arr, int minimum) {
+  if (arr->size < minimum) {
+    fprintf(stderr, "Expected stack depth of at least %d.\n", minimum);
+    return false;
+  } else {
+    return true;
+  }
 }
 
 void da_free(darray_t* arr) {

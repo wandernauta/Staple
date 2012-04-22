@@ -10,6 +10,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "darray.h"
 #include "dvalue.h"
