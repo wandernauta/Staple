@@ -89,17 +89,14 @@ bool execute(darray_t* code, darray_t* stack, darray_t* defs) {
       case FLOAT:
         // This is a POD token, copy it onto the stack
         da_push(stack, tok);
-        code->data[i] = NULL;
         break;
       case STRING:
         // This is a string token, copy it
         da_push(stack, tok);
-        code->data[i] = NULL;
         break;
       case LIST:
         // This is a list token, copy it as well
         da_push(stack, tok);
-        code->data[i] = NULL;
         break;
       case OP:
         if (!handle_op(tok, stack, defs)) return false; 

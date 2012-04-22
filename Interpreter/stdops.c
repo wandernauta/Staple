@@ -368,21 +368,37 @@ bool op_loop(darray_t* stk, darray_t* defs) {
 
 // times: Pop a list, execute it n times
 bool op_times(darray_t* stk, darray_t* defs) {
-  if (!da_ensure(stk, 1)) return false;
-  op_swap(stk);
+  if (!da_ensure(stk, 2)) return false;
+  if (!(da_get(stk, -2)->t == LIST && da_get(stk, -1)->t == INTEGER)) {
+    fprintf(stderr, "times: expected (list, integer)\n");
+    return false;
+  } 
 
-  dvalue_t* timesval = da_top(stk); da_pop(stk);
-  if (timesval->t != INTEGER) { fprintf(stderr, "times: expected integer\n"); return false; }
+  int count = da_top(stk)->d.i; da_pop(stk);
+  darray_t* code = da_top(stk)->d.a; da_pop(stk);
 
-  for (int i = 0; i < timesval->d.i; i++) {
-    op_do(stk, defs);
+  for (int i = 0; i < count; i++) {
+    execute(code, stk, defs);
   }
+
   return true;
 }
 
 // fi: Pop a list, execute it if the new top is true
 bool op_fi(darray_t* stk, darray_t* defs) {
-  if (!da_ensure(stk, 1)) return false;
+  if (!da_ensure(stk, 2)) return false;
+  if (!(da_get(stk, -1)->t == LIST && da_get(stk, -2)->t == BOOL)) {
+    fprintf(stderr, "fi: expected (boolean, list)\n");
+    return false;
+  } 
+
+  darray_t* code = da_top(stk)->d.a; da_pop(stk);
+  bool cond = da_top(stk)->d.b; da_pop(stk);
+
+  if (cond) {
+    execute(code, stk, defs);
+  }
+
   return true;
 }
 
