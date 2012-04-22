@@ -198,6 +198,32 @@ bool op_count(darray_t* stk) {
 bool op_int(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* top = da_top(stk);
+
+  double fval;
+  char* str;
+
+  switch (top->t) {
+    case INTEGER:
+      /* Nothing to do! */
+      break;
+    case FLOAT:
+      fval = top->d.i;
+      da_pop(stk);
+      da_push(stk, dv_int((int)fval));
+      break;
+    case STRING:
+      str = top->d.s;
+      da_pop(stk);
+      da_push(stk, dv_int(atoi(str)));
+      break;
+    case BOOL:
+      break;
+    default:
+      fprintf(stderr, "Unexpected %s (need int, float, string or bool)\n", dv_describe(top));
+      return false;
+      break;
+  }
+
   return true;
 }
 
@@ -460,17 +486,15 @@ bool op_depth(darray_t* stk) {
 // print: Output the string on top
 bool op_print(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
-  printf("%s\n", dv_fmt(da_top(stk)));
+  printf("%s", dv_fmt(da_top(stk)));
   da_pop(stk);
   return true;
 }
 
 // println: Output the string on top, then a newline
 bool op_println(darray_t* stk) {
-  if (!da_ensure(stk, 1)) return false;
-  if (da_top(stk)->t == STRING) {
-    puts(da_top(stk)->d.s);
-  }
+  if (!op_print(stk)) return false;
+  puts("");
   return true;
 }
 
@@ -478,6 +502,7 @@ bool op_println(darray_t* stk) {
 bool op_prompt(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   op_print(stk);
+  printf(" ");
   char* buf = malloc(255);
   fgets(buf, 255, stdin);
   da_push(stk, dv_string(buf));

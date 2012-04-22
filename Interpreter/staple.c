@@ -10,6 +10,8 @@
 #include "staple.h"
 
 int main(int argc, char** argv) {
+  setvbuf(stdout, NULL, _IONBF, 0);
+
   if (argc > 1) {
     if (strcmp(argv[1], "--version") == 0) {
       printf("Staple interpreter v%d.%d\n", MAJOR, MINOR);

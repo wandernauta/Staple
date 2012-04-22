@@ -13,16 +13,17 @@ has symbols). Everything (*everything*) in Staple is in postfix notation.
 Here's a program that calculates the area of a circle:
 
     [
-      -- Ask the user about their circle's radius, convert the input to int
-      println
-      "What's the radius of your circle?" prompt int
+      -- Ask the user about their circle's radius, convert the input to float
+      " What's the radius of your circle? " prompt float
 
       -- Multiply that with pi squared
-      3.14 dup * *
+      3.14 3.14 * *
 
       -- Print the result as a string
-      "Your circle's radius is about" print
+      " Your circle's area is about " print
       string println
+
+      " " println
     ] loop
 
 ## What's different?
