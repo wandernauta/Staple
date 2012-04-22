@@ -15,11 +15,16 @@
 #include "darray.h"
 #include "dvalue.h"
 
+bool execute(darray_t*, darray_t*, darray_t*);
+
 bool op_add(darray_t* stk);
 bool op_sub(darray_t* stk);
 bool op_mul(darray_t* stk);
 bool op_div(darray_t* stk);
 bool op_mod(darray_t* stk);
+
+bool op_sum(darray_t* stk);
+bool op_avg(darray_t* stk);
 
 bool op_cat(darray_t* stk);
 bool op_append(darray_t* stk);
@@ -46,10 +51,10 @@ bool op_eq(darray_t* stk);
 bool op_gt(darray_t* stk);
 bool op_lt(darray_t* stk);
 
-bool op_do(darray_t* stk);
-bool op_loop(darray_t* stk);
-bool op_times(darray_t* stk);
-bool op_fi(darray_t* stk);
+bool op_do(darray_t* stk, darray_t* defs);
+bool op_loop(darray_t* stk, darray_t* defs);
+bool op_times(darray_t* stk, darray_t* defs);
+bool op_fi(darray_t* stk, darray_t* defs);
 
 bool op_pop(darray_t* stk);
 bool op_swap(darray_t* stk);

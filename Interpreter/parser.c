@@ -39,8 +39,21 @@ darray_t* parse(char* code, darray_t* defs) {
     } else if (startswith(tok, ':')) {
       // This is a symbol
       da_push(out, dv_symbol(tok + 1));
+    } else if (startswith(tok, '"')) {
+      // This starts a string. Collect it.
+      char* str = malloc(255);
+
+      if (endswith(tok, '"')) {
+        strncpy(str, tok + 1, strlen(tok) - 2);
+        da_push(out, dv_string(str));
+      } else {
+      }
     } else if (equals(tok, "[")) {
       // This starts a list. Collect it.
+      da_push(out, dv_list(parse(tok + 2, defs)));
+    } else if (equals(tok, "]")) {
+      // This ends a list. Return it.
+      return out;
     } else if (equals(tok, "def")) {
       // This is a definition. Pop and store it.
     } else {

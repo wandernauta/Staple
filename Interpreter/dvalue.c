@@ -51,6 +51,7 @@ char* dv_describe(dvalue_t* val) {
 
 char* dv_fmt(dvalue_t* val) {
   char* out;
+  int off = 0;
 
   switch (val->t) {
     case INTEGER:
@@ -58,23 +59,28 @@ char* dv_fmt(dvalue_t* val) {
       snprintf(out, 20, "%lld", val->d.i);
       return out;
     case FLOAT:
-      return "Float";
+      out = malloc(20);
+      snprintf(out, 20, "%f", val->d.f);
+      return out;
     case BOOL:
       if (val->d.b) {
-        return "true";
+        return strdup("true");
       } else {
-        return "false";
+        return strdup("false");
       }
     case STRING:
-      return val->d.s;
+      return strdup(val->d.s);
     case SYMBOL:
-      return symbol_decode(val->d.sym);
+      out = malloc(20);
+      out[0] = ':';
+      strcpy(out + 1, symbol_decode(val->d.sym));
+      return out;
     case OP:
-      return val->d.s;
+      return strdup(val->d.s);
     case LIST:
-      return "[List]";
+      return da_fmt(val->d.a);
     default:
-      return "Unknown value";
+      return strdup("Unknown value");
   }
 }
 

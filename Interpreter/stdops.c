@@ -14,78 +14,110 @@
 // + (add): Pop two numbers, push their sum
 bool op_add(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* one = da_top(stk); da_pop(stk);
-  dvalue_t* two = da_top(stk); da_pop(stk);
 
-  if (one->t == INTEGER && two->t == INTEGER) {
+  if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_int(one->d.i + two->d.i));
-  } else if (one->t == FLOAT && two->t == FLOAT) {
+  } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_float(one->d.f + two->d.f));
   } else {
-    errx(1, "add: expected (int, int) or (float, float)");
+    fprintf(stderr, "add: expected (int, int) or (float, float)\n");
+    return false;
   }
 
-  dv_free(one); dv_free(two);
   return true;
 }
 
 // - (sub): Pop two numbers, push the difference
 bool op_sub(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* one = da_top(stk); da_pop(stk);
-  dvalue_t* two = da_top(stk); da_pop(stk);
 
-  if (one->t == INTEGER && two->t == INTEGER) {
+  if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_int(one->d.i - two->d.i));
-  } else if (one->t == FLOAT && two->t == FLOAT) {
+  } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_float(one->d.f - two->d.f));
   } else {
-    errx(1, "sub: expected (int, int) or (float, float)");
+    fprintf(stderr, "sub: expected (int, int) or (float, float)\n");
+    return false;
   }
 
-  dv_free(one); dv_free(two);
   return true;
 }
 
 // * (mul): Pop two numbers, push the product
 bool op_mul(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* one = da_top(stk); da_pop(stk);
-  dvalue_t* two = da_top(stk); da_pop(stk);
 
-  if (one->t == INTEGER && two->t == INTEGER) {
+  if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_int(one->d.i * two->d.i));
-  } else if (one->t == FLOAT && two->t == FLOAT) {
+  } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_float(one->d.f * two->d.f));
   } else {
-    errx(1, "mul: expected (int, int) or (float, float)");
+    fprintf(stderr, "mul: expected (int, int) or (float, float)\n");
+    return false;
   }
 
-  dv_free(one); dv_free(two);
   return true;
 }
 
 // / (div): Pop two numbers, push the division
 bool op_div(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* one = da_top(stk); da_pop(stk);
-  dvalue_t* two = da_top(stk); da_pop(stk);
 
-  if (one->t == INTEGER && two->t == INTEGER) {
+  if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_int(one->d.i / two->d.i));
-  } else if (one->t == FLOAT && two->t == FLOAT) {
+  } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
+    dvalue_t* one = da_top(stk); da_pop(stk);
+    dvalue_t* two = da_top(stk); da_pop(stk);
     da_push(stk, dv_float(one->d.f / two->d.f));
   } else {
-    errx(1, "div: expected (int, int) or (float, float)");
+    fprintf(stderr, "div: expected (int, int) or (float, float)\n");
+    return false;
   }
 
-  dv_free(one); dv_free(two);
   return true;
 }
 
 // % (mod): Pop two numbers, push the remainder
 bool op_mod(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
+  return true;
+}
+
+bool op_sum(darray_t* stk) {
+  int sum = 0;
+  while (stk->size > 0 && da_top(stk)->t == INTEGER) {
+    sum += da_top(stk)->d.i;
+    da_pop(stk);
+  }
+
+  da_push(stk, dv_int(sum));
+  return true;
+}
+
+bool op_avg(darray_t* stk) {
+  int sum = 0;
+  int count = 0;
+  while (stk->size > 0 && da_top(stk)->t == INTEGER) {
+    sum += da_top(stk)->d.i;
+    count += 1;
+    da_pop(stk);
+  }
+
+  da_push(stk, dv_int(sum / count));
   return true;
 }
 
@@ -99,7 +131,8 @@ bool op_cat(darray_t* stk) {
 
   if (one->t == STRING && two->t == STRING) {
   } else {
-    errx(1, "cat: expected (string, string) or (list, list)");
+    fprintf(stderr, "cat: expected (string, string) or (list, list)\n");
+    return false;
   }
 
   dv_free(one); dv_free(two);
@@ -172,6 +205,30 @@ bool op_int(darray_t* stk) {
 bool op_float(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* top = da_top(stk);
+
+  int64_t intval;
+  char* strptr;
+
+  switch (top->t) {
+    case INTEGER:
+      intval = top->d.i;
+      da_pop(stk);
+      da_push(stk, dv_float((double)intval));
+      break;
+    case FLOAT:
+      /* Nothing to do! */
+      break;
+    case STRING:
+      strptr = top->d.s;
+      da_pop(stk);
+      da_push(stk, dv_float(strtod(strptr, NULL)));
+      break;
+    default:
+      fprintf(stderr, "Unexpected %s (need int, float or string)\n", dv_describe(top));
+      return false;
+      break;
+  }
+
   return true;
 }
 
@@ -287,36 +344,44 @@ bool op_lt(darray_t* stk) {
 // # Control structures
 
 // do: Pop the top list, execute it
-bool op_do(darray_t* stk) {
+bool op_do(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 1)) return false;
+  if (da_top(stk)->t != LIST) { fprintf(stderr, "do: expected list\n"); return false; }
+
+  darray_t* code = da_top(stk)->d.a; da_pop(stk);
+
+  execute(code, stk, defs);
+
   return true;
 }
 
 // loop: Execute the top list indefinitely
-bool op_loop(darray_t* stk) {
+bool op_loop(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 1)) return false;
-  while (1) {
-    op_do(stk);
-  }
+  if (da_top(stk)->t != LIST) { fprintf(stderr, "loop: expected list\n"); return false; }
+
+  darray_t* code = da_top(stk)->d.a;
+  while (1) { execute(code, stk, defs); }
+
   return true;
 }
 
 // times: Pop a list, execute it n times
-bool op_times(darray_t* stk) {
+bool op_times(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 1)) return false;
   op_swap(stk);
 
   dvalue_t* timesval = da_top(stk); da_pop(stk);
-  if (timesval->t != INTEGER) errx(1, "times: expected integer");
+  if (timesval->t != INTEGER) { fprintf(stderr, "times: expected integer\n"); return false; }
 
   for (int i = 0; i < timesval->d.i; i++) {
-    op_do(stk);
+    op_do(stk, defs);
   }
   return true;
 }
 
 // fi: Pop a list, execute it if the new top is true
-bool op_fi(darray_t* stk) {
+bool op_fi(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 1)) return false;
   return true;
 }
@@ -363,7 +428,7 @@ bool op_rev(darray_t* stk) {
 // dump: Print the entire stack
 bool op_dump(darray_t* stk) {
   for (int i = 0; i < stk->size; i++) {
-    printf("%5d: %s\n", i, dv_fmt(da_get(stk, i)));
+    printf("%5d: %s (%s)\n", i, dv_fmt(da_get(stk, i)), dv_describe(da_get(stk, i)));
   }
   return true;
 }

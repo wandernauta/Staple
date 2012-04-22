@@ -32,4 +32,5 @@ dvalue_t* da_top(darray_t* arr);
 dvalue_t* da_get(darray_t* arr, int i);
 dvalue_t* da_next(darray_t* arr);
 bool da_ensure(darray_t* arr, int minimum);
+char* da_fmt(darray_t* arr);
 void da_free(darray_t* arr);

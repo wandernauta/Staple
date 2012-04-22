@@ -72,6 +72,25 @@ bool da_ensure(darray_t* arr, int minimum) {
   }
 }
 
+char* da_fmt(darray_t* arr) {
+  char* out = calloc(1, 1024);
+  out[0] = '[';
+  out[1] = ' ';
+  int offs = 2;
+
+  for (int i = 0; i < arr->size; i++) {
+    char* fmt = dv_fmt(da_get(arr, i));
+    strcpy(out + offs, fmt);
+    offs += strlen(fmt);
+    out[offs] = ' ';
+    offs += 1;
+  }
+
+  out[offs] = ']';
+
+  return out;
+}
+
 void da_free(darray_t* arr) {
   while (arr->size) da_pop(arr);
   free(arr);
