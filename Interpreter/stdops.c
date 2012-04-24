@@ -132,10 +132,15 @@ bool op_avg(darray_t* stk) {
 // cat: Concatenate two lists or strings  
 bool op_cat(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* one = da_top(stk); da_pop(stk);
   dvalue_t* two = da_top(stk); da_pop(stk);
+  dvalue_t* one = da_top(stk); da_pop(stk);
 
   if (one->t == STRING && two->t == STRING) {
+    int len = strlen(one->d.s) + strlen(two->d.s);
+    char* dest = malloc(len);
+    strcpy(dest, one->d.s);
+    strcat(dest, two->d.s);
+    da_push(stk, dv_string(dest));
   } else {
     fprintf(stderr, "cat: expected (string, string) or (list, list)\n");
     return false;
