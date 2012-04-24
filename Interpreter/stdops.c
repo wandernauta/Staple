@@ -103,8 +103,7 @@ bool op_mod(darray_t* stk) {
 bool op_sum(darray_t* stk) {
   int sum = 0;
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
-    sum += da_top(stk)->d.i;
-    da_pop(stk);
+    sum += da_pop(stk)->d.i;
   }
 
   da_push(stk, dv_int(sum));
@@ -116,9 +115,8 @@ bool op_avg(darray_t* stk) {
   int sum = 0;
   int count = 0;
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
-    sum += da_top(stk)->d.i;
+    sum += da_pop(stk)->d.i;
     count += 1;
-    da_pop(stk);
   }
 
   da_push(stk, dv_int(sum / count));
@@ -141,12 +139,20 @@ bool op_cat(darray_t* stk) {
     strcpy(dest, one->d.s);
     strcat(dest, two->d.s);
     da_push(stk, dv_string(dest));
+  } else if (one->t == LIST && two->t == LIST) {
+    darray_t* l1 = (darray_t*)one->d.a;
+    darray_t* l2 = (darray_t*)two->d.a;
+
+    for (int i = 0; i < l2->size; i++) {
+      da_push(l1, da_get(l2, i));
+    }
+
+    da_push(stk, one);
   } else {
     fprintf(stderr, "cat: expected (string, string) or (list, list)\n");
     return false;
   }
 
-  dv_free(one); dv_free(two);
   return true;
 }
 
@@ -155,6 +161,7 @@ bool op_append(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
   dvalue_t* elem = da_pop(stk);
   dvalue_t* list = da_top(stk);
+  da_push(list->d.a, elem);
   return true;
 }
 
@@ -163,6 +170,22 @@ bool op_prepend(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
   dvalue_t* elem = da_pop(stk);
   dvalue_t* list = da_top(stk);
+
+  /* Make a new list */
+  darray_t* new = da_init();
+
+  /* Add the popped element to the list */
+  da_push(new, elem);
+
+  /* Push the new list onto the stack */
+  da_push(stk, dv_list(new));
+
+  /* Swap the stack top */
+  da_swap(stk);
+
+  /* Concatenate the top two lists */
+  op_cat(stk);
+
   return true;
 }
 
@@ -178,6 +201,14 @@ bool op_pack(darray_t* stk) {
 // unpack: Pop a list from the stack, then push its contents  
 bool op_unpack(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
+
+  dvalue_t* listval = da_pop(stk);
+  darray_t* list = listval->d.a;
+
+  for (int i = 0; i < list->size; i++) {
+    da_push(stk, da_get(list, i));
+  }
+
   return true;
 }
 
@@ -185,6 +216,8 @@ bool op_unpack(darray_t* stk) {
 bool op_head(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* list = da_top(stk);
+
+  da_push(stk, da_get(list->d.a, 0));
   return true;
 }
 
@@ -192,6 +225,8 @@ bool op_head(darray_t* stk) {
 bool op_tail(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* list = da_top(stk);
+
+  da_push(stk, da_top(list->d.a));
   return true;
 }
 
@@ -200,6 +235,7 @@ bool op_count(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* list = da_top(stk);
 
+  da_push(stk, dv_int(((darray_t*)list->d.a)->size));
   return true;
 }
 
@@ -230,6 +266,13 @@ bool op_int(darray_t* stk) {
       da_push(stk, dv_int(atoi(str)));
       break;
     case BOOL:
+      if (top->d.b == true) {
+        da_pop(stk);
+        da_push(stk, dv_int(1));
+      } else {
+        da_pop(stk);
+        da_push(stk, dv_int(0));
+      }
       break;
     default:
       fprintf(stderr, "Unexpected %s (need int, float, string or bool)\n", dv_describe(top));
@@ -271,17 +314,33 @@ bool op_float(darray_t* stk) {
   return true;
 }
 
-// bool: Convert anything to a bool  
+// bool: Convert an integer to a bool  
 bool op_bool(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   dvalue_t* top = da_top(stk);
+
+  switch (top->t) {
+    case INTEGER:
+      if (top->d.i == 0) {
+        da_push(stk, dv_bool(false));
+      } else {
+        da_push(stk, dv_bool(true));
+      }
+      break;
+    default:
+      fprintf(stderr, "bool: Unexpected %s (need int)\n", dv_describe(top));
+      return false;
+      break;
+  }
+
   return true;
 }
 
 // string: Convert anything to a string  
 bool op_string(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
-  dvalue_t* top = da_top(stk);
+  dvalue_t* top = da_pop(stk);
+  da_push(stk, dv_string(dv_fmt(top)));
   return true;
 }
 
@@ -296,7 +355,7 @@ bool op_symbol(darray_t* stk) {
     da_pop(stk);
     return true;
   } else {
-    fprintf(stderr, "symbol: unexpected type\n");
+    fprintf(stderr, "symbol: Unexpected %s (need string)\n", dv_describe(top));
     return false;
   }
 }
@@ -313,7 +372,7 @@ bool op_negate(darray_t* stk) {
   } else if (top->t == BOOL) {
     top->d.b = !(top->d.b);
   } else {
-    fprintf(stderr, "negate: unexpected type\n");
+    fprintf(stderr, "negate: Unexpected %s (need integer, float or bool)\n", dv_describe(top));
     return false;
   }
 
@@ -327,8 +386,8 @@ bool op_negate(darray_t* stk) {
 // both: Pop two bools, push whether they are both true (logical AND)  
 bool op_both(darray_t* stk) {
   if (da_ensure(stk, 2) && da_get(stk, 0)->t == BOOL && da_get(stk, 1)->t == BOOL) {
-    bool one = da_top(stk)->d.b; da_pop(stk);
-    bool two = da_top(stk)->d.b; da_pop(stk);
+    bool one = da_pop(stk)->d.b;
+    bool two = da_pop(stk)->d.b;
     
     da_push(stk, dv_bool(one && two));
     return true;
@@ -340,8 +399,8 @@ bool op_both(darray_t* stk) {
 // either: Pop two bools, push whether either of them are true (logical OR)  
 bool op_either(darray_t* stk) {
   if (da_ensure(stk, 2) && da_get(stk, 0)->t == BOOL && da_get(stk, 1)->t == BOOL) {
-    bool one = da_top(stk)->d.b; da_pop(stk);
-    bool two = da_top(stk)->d.b; da_pop(stk);
+    bool one = da_pop(stk)->d.b;
+    bool two = da_pop(stk)->d.b;
     
     da_push(stk, dv_bool(one || two));
     return true;
@@ -486,11 +545,17 @@ bool op_cycle(darray_t* stk) {
 // dup: Duplicate the top of the stack  
 bool op_dup(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
+
+  dvalue_t* new = malloc(sizeof(dvalue_t));
+  memcpy(new, da_top(stk), sizeof(dvalue_t));
+  da_push(stk, new);
+
   return true;
 }
 
 // rev: Reverse the entire stack  
 bool op_rev(darray_t* stk) {
+  da_rev(stk);
   return true;
 }
 

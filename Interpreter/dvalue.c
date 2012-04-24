@@ -51,7 +51,6 @@ char* dv_describe(dvalue_t* val) {
 
 char* dv_fmt(dvalue_t* val) {
   char* out;
-  int off = 0;
 
   switch (val->t) {
     case INTEGER:

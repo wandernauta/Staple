@@ -17,9 +17,11 @@
 
 #include "symenc.h"
 
-// Forward declarations for da_free
+// Forward declarations
 struct darray;
 void da_free(struct darray*);
+char* da_fmt(struct darray* arr);
+// End forward declarations
 
 enum type {
   INTEGER,

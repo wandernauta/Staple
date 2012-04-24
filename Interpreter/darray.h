@@ -28,6 +28,7 @@ darray_t* da_init();
 void da_push(darray_t* arr, dvalue_t* val);
 dvalue_t* da_pop(darray_t* arr);
 void da_swap(darray_t* arr);
+void da_rev(darray_t* arr);
 dvalue_t* da_top(darray_t* arr);
 dvalue_t* da_get(darray_t* arr, int i);
 dvalue_t* da_next(darray_t* arr);

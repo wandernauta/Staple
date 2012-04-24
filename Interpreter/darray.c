@@ -41,6 +41,22 @@ dvalue_t* da_pop(darray_t* arr) {
 }
 
 void da_swap(darray_t* arr) {
+  dvalue_t* b = da_pop(arr);
+  dvalue_t* a = da_pop(arr);
+
+  da_push(arr, b);
+  da_push(arr, a);
+}
+
+void da_rev(darray_t* arr) {
+  int end = arr->size - 1;
+  for (int i = 0; i < (arr->size / 2); i++) {
+    dvalue_t* t = arr->data[i];
+    arr->data[i] = arr->data[end];
+    arr->data[end] = t;
+
+    end--;
+  }
 }
 
 dvalue_t* da_top(darray_t* arr) {
