@@ -365,6 +365,10 @@ bool op_false(darray_t* stk) {
 bool op_eq(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
+  dvalue_t* two = da_top(stk); da_pop(stk);
+  dvalue_t* one = da_top(stk); da_pop(stk);
+
+  da_push(stk, dv_bool((memcmp(one, two, sizeof(dvalue_t)) == 0)));
 
   return true;
 }
