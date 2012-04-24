@@ -10,17 +10,17 @@ has symbols). Everything (*everything*) in Staple is in postfix notation.
 
 ## What does Staple code look like?
 
-Here's a program that calculates the area of a circle:
+Here's a program that calculates the circumference of a circle:
 
     [
-      -- Ask the user about their circle's radius, convert the input to float
+      /* Ask the user about their circle's radius, convert the input */
       " What's the radius of your circle? " prompt float
 
-      -- Multiply that with pi squared
-      3.14 3.14 * *
+      /* Multiply that with two pi */
+      3.14 2 * *
 
-      -- Print the result as a string
-      " Your circle's area is about " print
+      /* Print the result as a string */
+      " Your circle's circumference is about " print
       string println
 
       " " println
