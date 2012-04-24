@@ -33,9 +33,11 @@ void da_push(darray_t* arr, dvalue_t* val) {
   arr->size += 1;
 }
 
-void da_pop(darray_t* arr) {
+dvalue_t* da_pop(darray_t* arr) {
+  dvalue_t* top = da_top(arr);
   arr->size -= 1; 
   arr->data[arr->size] = NULL;
+  return top;
 }
 
 void da_swap(darray_t* arr) {

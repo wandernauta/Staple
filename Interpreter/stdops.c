@@ -18,12 +18,12 @@ bool op_add(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_int(one->d.i + two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_float(one->d.f + two->d.f));
   } else {
     fprintf(stderr, "add: expected (int, int) or (float, float)\n");
@@ -38,12 +38,12 @@ bool op_sub(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_int(one->d.i - two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_float(one->d.f - two->d.f));
   } else {
     fprintf(stderr, "sub: expected (int, int) or (float, float)\n");
@@ -58,12 +58,12 @@ bool op_mul(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_int(one->d.i * two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_float(one->d.f * two->d.f));
   } else {
     fprintf(stderr, "mul: expected (int, int) or (float, float)\n");
@@ -78,12 +78,12 @@ bool op_div(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_int(one->d.i / two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_top(stk); da_pop(stk);
-    dvalue_t* two = da_top(stk); da_pop(stk);
+    dvalue_t* one = da_pop(stk);
+    dvalue_t* two = da_pop(stk);
     da_push(stk, dv_float(one->d.f / two->d.f));
   } else {
     fprintf(stderr, "div: expected (int, int) or (float, float)\n");
@@ -132,8 +132,8 @@ bool op_avg(darray_t* stk) {
 // cat: Concatenate two lists or strings  
 bool op_cat(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* two = da_top(stk); da_pop(stk);
-  dvalue_t* one = da_top(stk); da_pop(stk);
+  dvalue_t* two = da_pop(stk);
+  dvalue_t* one = da_pop(stk);
 
   if (one->t == STRING && two->t == STRING) {
     int len = strlen(one->d.s) + strlen(two->d.s);
@@ -153,7 +153,7 @@ bool op_cat(darray_t* stk) {
 // append: Pop an element, append it to the list below  
 bool op_append(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* elem = da_top(stk); da_pop(stk);
+  dvalue_t* elem = da_pop(stk);
   dvalue_t* list = da_top(stk);
   return true;
 }
@@ -161,7 +161,7 @@ bool op_append(darray_t* stk) {
 // prepend: Pop an element, prepend it to the list below  
 bool op_prepend(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  dvalue_t* elem = da_top(stk); da_pop(stk);
+  dvalue_t* elem = da_pop(stk);
   dvalue_t* list = da_top(stk);
   return true;
 }
@@ -370,8 +370,8 @@ bool op_false(darray_t* stk) {
 bool op_eq(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
-  dvalue_t* two = da_top(stk); da_pop(stk);
-  dvalue_t* one = da_top(stk); da_pop(stk);
+  dvalue_t* two = da_pop(stk);
+  dvalue_t* one = da_pop(stk);
 
   da_push(stk, dv_bool((memcmp(one, two, sizeof(dvalue_t)) == 0)));
 

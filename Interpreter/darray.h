@@ -26,7 +26,7 @@ typedef struct darray darray_t;
 
 darray_t* da_init();
 void da_push(darray_t* arr, dvalue_t* val);
-void da_pop(darray_t* arr);
+dvalue_t* da_pop(darray_t* arr);
 void da_swap(darray_t* arr);
 dvalue_t* da_top(darray_t* arr);
 dvalue_t* da_get(darray_t* arr, int i);
