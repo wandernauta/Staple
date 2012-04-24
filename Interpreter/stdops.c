@@ -361,19 +361,21 @@ bool op_false(darray_t* stk) {
 // ## Comparison
 //  
 
-// eq: Push true if the top two elements are equal  
+// eq: Pop two elements, then push true if they are equal  
 bool op_eq(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
+
+
   return true;
 }
 
-// gt: Push true if the top is greater than the second element  
+// gt: Pop two elements, then push true if the second is greater than the first  
 bool op_gt(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
   return true;
 }
 
-// lt: Push true if the top is lesser than the second element  
+// gt: Pop two elements, then push true if the second is lesser than the first  
 bool op_lt(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
   return true;
