@@ -102,6 +102,8 @@ char* da_fmt(darray_t* arr) {
     offs += strlen(fmt);
     out[offs] = ' ';
     offs += 1;
+
+    free(fmt);
   }
 
   out[offs] = ']';
@@ -110,6 +112,8 @@ char* da_fmt(darray_t* arr) {
 }
 
 void da_free(darray_t* arr) {
-  while (arr->size) da_pop(arr);
+  for (int i = 0; i < arr->size; i++) {
+    dv_free(da_get(arr, i));
+  }
   free(arr);
 }

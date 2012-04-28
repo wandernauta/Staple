@@ -62,6 +62,7 @@ darray_t* parse(char* code, darray_t* defs) {
         off += 1;
       }
       da_push(out, dv_string(str));
+      free(str);
     } else if (equals(tok, "[")) {
       // This starts a list. Collect it.
       da_push(out, dv_list(parse(tok + 2, defs)));

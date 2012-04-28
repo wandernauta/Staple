@@ -12,6 +12,9 @@
 int main(int argc, char** argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
 
+  darray_t* stack = da_init();
+  darray_t* defs = da_init();
+
   if (argc > 1) {
     if (strcmp(argv[1], "--version") == 0) {
       printf("Staple interpreter v%d.%d\n", MAJOR, MINOR);
@@ -24,13 +27,12 @@ int main(int argc, char** argv) {
       fstat(fildes, &buffer);
       char* in = mmap(0, buffer.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fildes, 0);
 
-      darray_t* stack = da_init();
-      darray_t* defs = da_init();
-
       darray_t* code = parse(in, defs);
       execute(code, stack, defs);
+      da_free(code);
 
       munmap(in, buffer.st_size);
+      fclose(f);
     } else {
       // There's something wrong with the file
       err(1, "%s", argv[1]);
@@ -42,13 +44,13 @@ int main(int argc, char** argv) {
     linenoiseHistoryLoad(exp_result.we_wordv[0]);
 
     char* line;
-    darray_t* stack = da_init();
-    darray_t* defs = da_init();
 
     while((line = linenoise("staple> ")) != NULL) {
       if (line[0] != '\0') {
         darray_t* code = parse(line, defs);
         execute(code, stack, defs);
+        da_free(code);
+
         linenoiseHistoryAdd(line);
         linenoiseHistorySave(exp_result.we_wordv[0]);
       }
@@ -57,6 +59,10 @@ int main(int argc, char** argv) {
 
     wordfree(&exp_result);
   }
+
+  // Clean up stack, defs, code
+  da_free(stack);
+  da_free(defs);
 
   return 0;
 }

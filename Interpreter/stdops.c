@@ -103,7 +103,9 @@ bool op_mod(darray_t* stk) {
 bool op_sum(darray_t* stk) {
   int sum = 0;
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
-    sum += da_pop(stk)->d.i;
+    dvalue_t* top = da_pop(stk);
+    sum += top->d.i;
+    dv_free(top);
   }
 
   da_push(stk, dv_int(sum));
@@ -115,7 +117,9 @@ bool op_avg(darray_t* stk) {
   int sum = 0;
   int count = 0;
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
-    sum += da_pop(stk)->d.i;
+    dvalue_t* top = da_pop(stk);
+    sum += top->d.i;
+    dv_free(top);
     count += 1;
   }
 
@@ -595,7 +599,10 @@ bool op_rev(darray_t* stk) {
 // dump: Print the entire stack  
 bool op_dump(darray_t* stk) {
   for (int i = 0; i < stk->size; i++) {
-    printf("%5d: %s (%s)\n", i, dv_fmt(da_get(stk, i)), dv_describe(da_get(stk, i)));
+    char* fmt = dv_fmt(da_get(stk, i));
+    char* desc = dv_describe(da_get(stk, i));
+    printf("%5d: %s (%s)\n", i, fmt, desc);
+    free(fmt);
   }
   return true;
 }
@@ -613,8 +620,9 @@ bool op_depth(darray_t* stk) {
 // print: Output the string on top  
 bool op_print(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
-  printf("%s", dv_fmt(da_top(stk)));
-  da_pop(stk);
+  char* fmt = dv_fmt(da_pop(stk));
+  printf("%s", fmt);
+  free(fmt);
   return true;
 }
 
