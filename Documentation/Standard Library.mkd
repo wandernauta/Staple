@@ -7,6 +7,9 @@ div (`/`): Pop two numbers, push the division
 mod (`%`): Pop two numbers, push the remainder  
 sum: Pop while the top is a number, then push the sum  
 avg: Pop while the top is a number, then push the average  
+
+## More advanced maths
+
  
 ## List utilities
  

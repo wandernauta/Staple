@@ -29,7 +29,6 @@ int main(int argc, char** argv) {
 
       darray_t* code = parse(in, defs);
       execute(code, stack, defs);
-      da_free(code);
 
       munmap(in, buffer.st_size);
       fclose(f);
@@ -49,7 +48,6 @@ int main(int argc, char** argv) {
       if (line[0] != '\0') {
         darray_t* code = parse(line, defs);
         execute(code, stack, defs);
-        da_free(code);
 
         linenoiseHistoryAdd(line);
         linenoiseHistorySave(exp_result.we_wordv[0]);

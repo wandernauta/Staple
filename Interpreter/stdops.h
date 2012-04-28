@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -25,6 +26,19 @@ bool op_mod(darray_t* stk);
 
 bool op_sum(darray_t* stk);
 bool op_avg(darray_t* stk);
+
+bool op_ceil(darray_t* stk);
+bool op_floor(darray_t* stk);
+bool op_trunc(darray_t* stk);
+bool op_abs(darray_t* stk);
+bool op_exp(darray_t* stk);
+bool op_pi(darray_t* stk);
+bool op_sin(darray_t* stk);
+bool op_cos(darray_t* stk);
+bool op_tan(darray_t* stk);
+bool op_log(darray_t* stk);
+bool op_pow(darray_t* stk);
+bool op_hypot(darray_t* stk);
 
 bool op_cat(darray_t* stk);
 bool op_append(darray_t* stk);

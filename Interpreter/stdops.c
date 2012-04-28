@@ -105,7 +105,6 @@ bool op_sum(darray_t* stk) {
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
     dvalue_t* top = da_pop(stk);
     sum += top->d.i;
-    dv_free(top);
   }
 
   da_push(stk, dv_int(sum));
@@ -119,11 +118,99 @@ bool op_avg(darray_t* stk) {
   while (stk->size > 0 && da_top(stk)->t == INTEGER) {
     dvalue_t* top = da_pop(stk);
     sum += top->d.i;
-    dv_free(top);
     count += 1;
   }
 
   da_push(stk, dv_int(sum / count));
+  return true;
+}
+
+//
+// ## More advanced maths
+//
+
+bool op_ceil(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "ceil: expected float\n"); return false; }
+  da_push(stk, dv_float(ceil(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_floor(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "floor: expected float\n"); return false; }
+  da_push(stk, dv_float(floor(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_trunc(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "trunc: expected float\n"); return false; }
+  da_push(stk, dv_float(trunc(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_abs(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != INTEGER) { fprintf(stderr, "abs: expected integer\n"); return false; }
+  da_push(stk, dv_float(abs(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_exp(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "exp: expected float\n"); return false; }
+  da_push(stk, dv_float(exp(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_pi(darray_t* stk) {
+  da_push(stk, dv_float(M_PI));
+  return true;
+}
+
+bool op_sin(darray_t* stk) {
+  da_ensure(stk, 1);
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "sin: expected float\n"); return false; }
+  da_push(stk, dv_float(sin(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_cos(darray_t* stk) {
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "cos: expected float\n"); return false; }
+  da_push(stk, dv_float(cos(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_tan(darray_t* stk) {
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "tan: expected float\n"); return false; }
+  da_push(stk, dv_float(tan(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_log(darray_t* stk) {
+  if (da_top(stk)->t != FLOAT) { fprintf(stderr, "log: expected float\n"); return false; }
+  da_push(stk, dv_float(log(da_pop(stk)->d.f)));
+  return true;
+}
+
+bool op_pow(darray_t* stk) {
+  if (da_top(stk)->t != FLOAT || da_get(stk, -2)->t != FLOAT) { fprintf(stderr, "pow: expected (float, float)\n"); return false; }
+  dvalue_t* y = da_pop(stk);
+  dvalue_t* x = da_pop(stk);
+
+  da_push(stk, dv_float(pow(x->d.f, y->d.f)));
+
+  return true;
+}
+
+bool op_hypot(darray_t* stk) {
+  if (da_top(stk)->t != FLOAT || da_get(stk, -2)->t != FLOAT) { fprintf(stderr, "hypot: expected (float, float)\n"); return false; }
+  dvalue_t* y = da_pop(stk);
+  dvalue_t* x = da_pop(stk);
+
+  da_push(stk, dv_float(hypot(x->d.f, y->d.f)));
+
   return true;
 }
 
@@ -602,7 +689,6 @@ bool op_dump(darray_t* stk) {
     char* fmt = dv_fmt(da_get(stk, i));
     char* desc = dv_describe(da_get(stk, i));
     printf("%5d: %s (%s)\n", i, fmt, desc);
-    free(fmt);
   }
   return true;
 }
@@ -622,7 +708,6 @@ bool op_print(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   char* fmt = dv_fmt(da_pop(stk));
   printf("%s", fmt);
-  free(fmt);
   return true;
 }
 

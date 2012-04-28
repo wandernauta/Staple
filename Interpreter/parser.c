@@ -62,13 +62,14 @@ darray_t* parse(char* code, darray_t* defs) {
         off += 1;
       }
       da_push(out, dv_string(str));
-      free(str);
     } else if (equals(tok, "[")) {
       // This starts a list. Collect it.
       da_push(out, dv_list(parse(tok + 2, defs)));
     } else if (equals(tok, "]")) {
       // This ends a list. Return it.
       return out;
+    } else if (equals(tok, "(") || equals(tok, ")")) {
+      // Parentheses have no meaning in Staple.
     } else {
       // This is a call
       da_push(out, dv_op(tok));

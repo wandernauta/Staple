@@ -23,6 +23,19 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "sum") == 0)      { if(!op_sum(stk))      return false; }
   else if (strcmp(op, "avg") == 0)      { if(!op_avg(stk))      return false; }
 
+  else if (strcmp(op, "ceil") == 0)     { if(!op_ceil(stk))     return false; }
+  else if (strcmp(op, "floor") == 0)    { if(!op_floor(stk))    return false; }
+  else if (strcmp(op, "trunc") == 0)    { if(!op_trunc(stk))    return false; }
+  else if (strcmp(op, "abs") == 0)      { if(!op_abs(stk))      return false; }
+  else if (strcmp(op, "exp") == 0)      { if(!op_exp(stk))      return false; }
+  else if (strcmp(op, "pi") == 0)       { if(!op_pi(stk))       return false; }
+  else if (strcmp(op, "sin") == 0)      { if(!op_sin(stk))      return false; }
+  else if (strcmp(op, "cos") == 0)      { if(!op_cos(stk))      return false; }
+  else if (strcmp(op, "tan") == 0)      { if(!op_tan(stk))      return false; }
+  else if (strcmp(op, "log") == 0)      { if(!op_log(stk))      return false; }
+  else if (strcmp(op, "pow") == 0)      { if(!op_pow(stk))      return false; }
+  else if (strcmp(op, "hypot") == 0)    { if(!op_hypot(stk))    return false; }
+
   else if (strcmp(op, "cat") == 0)      { if(!op_cat(stk))      return false; }
   else if (strcmp(op, "append") == 0)   { if(!op_append(stk))   return false; }
   else if (strcmp(op, "prepend") == 0)  { if(!op_prepend(stk))  return false; }
@@ -78,7 +91,7 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "exit") == 0)     { if(!op_exit())        return false; }
 
   else {
-    for (int i = 0; i < (d->size/2); i++) {
+    for (int i = 0; i < d->size; i += 2) {
       if (da_get(d, i)->d.sym == symbol_encode(op)) {
         execute((darray_t*)da_get(d, i+1)->d.a, stk, d);
         return true;

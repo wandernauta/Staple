@@ -2,7 +2,7 @@ CFLAGS ?= -Wall -Wextra -pedantic -g
 
 all: staple tags
 staple: darray.o dvalue.o parser.o runner.o staple.o stdops.o symenc.o vendor/linenoise.o
-	$(CC) $(CCFLAGS) $^ -o staple
+	$(CC) $(CCFLAGS) $^ -o staple -lm
 
 darray.o: darray.c darray.h dvalue.h symenc.h
 dvalue.o: dvalue.c dvalue.h symenc.h
