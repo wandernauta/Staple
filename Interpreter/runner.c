@@ -51,6 +51,8 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "string") == 0)   { if(!op_string(stk))   return false; }
   else if (strcmp(op, "symbol") == 0)   { if(!op_symbol(stk))   return false; }
   else if (strcmp(op, "negate") == 0)   { if(!op_negate(stk))   return false; }
+  else if (strcmp(op, "chr") == 0)      { if(!op_chr(stk))      return false; }
+  else if (strcmp(op, "ord") == 0)      { if(!op_ord(stk))      return false; }
 
   else if (strcmp(op, "both") == 0)     { if(!op_both(stk))     return false; }
   else if (strcmp(op, "either") == 0)   { if(!op_either(stk))   return false; }

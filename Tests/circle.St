@@ -1,7 +1,6 @@
 /* circle.St */
 /* A test file for the Staple language and interpreter. */
 
-
 /* The radius we're using */
 1.234
 

@@ -30,6 +30,8 @@ bool: Convert an integer to a bool
 string: Convert anything to a string  
 symbol: Convert a string to a symbol  
 negate: Negate the topmost number or boolean  
+chr: Convert the topmost integer to a single-character string
+ord: Convert a single-character string to an integer
  
 ## Logic
  
@@ -42,7 +44,7 @@ false: Push a false boolean value onto the stack
  
 eq: Pop two elements, then push true if they are equal  
 gt: Pop two elements, then push true if the second is greater than the first  
-gt: Pop two elements, then push true if the second is lesser than the first  
+lt: Pop two elements, then push true if the second is lesser than the first  
  
 ## Control structures
  

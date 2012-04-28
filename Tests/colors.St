@@ -27,7 +27,7 @@ depth [
   call
 
   /* Print a row of #'s */
-  " # " [ " # " cat ] 40 times println
+  35 chr [ 35 chr cat ] 40 times println
 ] swap times
 
 :init call " " println

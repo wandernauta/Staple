@@ -351,7 +351,7 @@ bool op_int(darray_t* stk) {
       /* Nothing to do! */
       break;
     case FLOAT:
-      fval = top->d.i;
+      fval = top->d.f;
       da_pop(stk);
       da_push(stk, dv_int((int)fval));
       break;
@@ -474,13 +474,37 @@ bool op_negate(darray_t* stk) {
   return true;
 }
 
+// chr: Convert the topmost integer to a single-character string
+bool op_chr(darray_t* stk) {
+  if (!da_ensure(stk, 1) || da_top(stk)->t != INTEGER) return false;
+
+  dvalue_t* integer = da_pop(stk);
+  int64_t intval = integer->d.i;
+  char* str = calloc(1, 2);
+  str[0] = (char)intval;
+  da_push(stk, dv_string(str));
+
+  return true;
+}
+
+// ord: Convert a single-character string to an integer
+bool op_ord(darray_t* stk) {
+  if (!da_ensure(stk, 1) || da_top(stk)->t != STRING) return false;
+
+  dvalue_t* string = da_pop(stk);
+  char* strval = string->d.s;
+  da_push(stk, dv_int((int)strval[0]));
+
+  return true;
+}
+
 //  
 // ## Logic
 //  
 
 // both: Pop two bools, push whether they are both true (logical AND)  
 bool op_both(darray_t* stk) {
-  if (da_ensure(stk, 2) && da_get(stk, 0)->t == BOOL && da_get(stk, 1)->t == BOOL) {
+  if (da_ensure(stk, 2) && da_get(stk, -1)->t == BOOL && da_get(stk, -2)->t == BOOL) {
     bool one = da_pop(stk)->d.b;
     bool two = da_pop(stk)->d.b;
     
@@ -493,7 +517,7 @@ bool op_both(darray_t* stk) {
 
 // either: Pop two bools, push whether either of them are true (logical OR)  
 bool op_either(darray_t* stk) {
-  if (da_ensure(stk, 2) && da_get(stk, 0)->t == BOOL && da_get(stk, 1)->t == BOOL) {
+  if (da_ensure(stk, 2) && da_get(stk, -1)->t == BOOL && da_get(stk, -2)->t == BOOL) {
     bool one = da_pop(stk)->d.b;
     bool two = da_pop(stk)->d.b;
     
@@ -535,12 +559,41 @@ bool op_eq(darray_t* stk) {
 // gt: Pop two elements, then push true if the second is greater than the first  
 bool op_gt(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
-  return true;
+
+  dvalue_t* two = da_pop(stk);
+  dvalue_t* one = da_pop(stk);
+
+  if (one->t == INTEGER && two->t == INTEGER) {
+    if (one->d.i > two->d.i) da_push(stk, dv_bool(true));
+    else da_push(stk, dv_bool(false));
+    return true;
+  } if (one->t == FLOAT && two->t == FLOAT) {
+    if (one->d.f > two->d.f) da_push(stk, dv_bool(true));
+    else da_push(stk, dv_bool(false));
+    return true;
+  } else {
+    return false;
+  }
 }
 
-// gt: Pop two elements, then push true if the second is lesser than the first  
+// lt: Pop two elements, then push true if the second is lesser than the first  
 bool op_lt(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
+
+  dvalue_t* two = da_pop(stk);
+  dvalue_t* one = da_pop(stk);
+
+  if (one->t == INTEGER && two->t == INTEGER) {
+    if (one->d.i < two->d.i) da_push(stk, dv_bool(true));
+    else da_push(stk, dv_bool(false));
+    return true;
+  } if (one->t == FLOAT && two->t == FLOAT) {
+    if (one->d.f < two->d.f) da_push(stk, dv_bool(true));
+    else da_push(stk, dv_bool(false));
+    return true;
+  } else {
+    return false;
+  }
   return true;
 }
 

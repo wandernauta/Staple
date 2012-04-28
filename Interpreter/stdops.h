@@ -55,6 +55,8 @@ bool op_bool(darray_t* stk);
 bool op_string(darray_t* stk);
 bool op_symbol(darray_t* stk);
 bool op_negate(darray_t* stk);
+bool op_chr(darray_t* stk);
+bool op_ord(darray_t* stk);
 
 bool op_both(darray_t* stk);
 bool op_either(darray_t* stk);
