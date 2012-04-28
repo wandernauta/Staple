@@ -44,9 +44,10 @@ gt: Pop two elements, then push true if the second is lesser than the first
 ## Control structures
  
 do: Pop the top list, execute it  
-loop: Execute the top list indefinitely  
+loop: Pop the top list, execute it indefinitely  
 times: Pop a list, execute it n times  
 fi: Pop a list, execute it if the new top is true  
+call: Pop a symbol, execute it  
  
 ## Stack management
  
@@ -54,6 +55,7 @@ pop: Unconditionally pop the top of the stack
 swap: Exchange the top of the stack with the second element  
 cycle: Cycle the bottom of the stack to the top  
 dup: Duplicate the top of the stack  
+over: Duplicate the item below the top  
 rev: Reverse the entire stack  
 dump: Print the entire stack  
 depth: Push a count of the number of elements on the stack  
@@ -67,6 +69,12 @@ prompt: Ask the user for input, push it as a string
 ## Types and type handling
  
 type: Push the type of the top element as a number  
+
+## Definition management
+
+def: Define a function  
+defs: Push a list of defined functions to the stack as symbols  
+isdef: Push whether a symbol is defined as a function or not  
  
 ## Miscellany
  

@@ -52,11 +52,13 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "loop") == 0)     { if(!op_loop(stk, d))  return false; }
   else if (strcmp(op, "times") == 0)    { if(!op_times(stk, d)) return false; }
   else if (strcmp(op, "fi") == 0)       { if(!op_fi(stk, d))    return false; }
+  else if (strcmp(op, "call") == 0)     { if(!op_call(stk, d))  return false; }
 
   else if (strcmp(op, "pop") == 0)      { if(!op_pop(stk))      return false; }
   else if (strcmp(op, "swap") == 0)     { if(!op_swap(stk))     return false; }
   else if (strcmp(op, "cycle") == 0)    { if(!op_cycle(stk))    return false; }
   else if (strcmp(op, "dup") == 0)      { if(!op_dup(stk))      return false; }
+  else if (strcmp(op, "over") == 0)     { if(!op_over(stk))     return false; }
   else if (strcmp(op, "rev") == 0)      { if(!op_rev(stk))      return false; }
   else if (strcmp(op, "dump") == 0)     { if(!op_dump(stk))     return false; }
   else if (strcmp(op, "depth") == 0)    { if(!op_depth(stk))    return false; }

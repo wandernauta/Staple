@@ -190,10 +190,15 @@ bool op_prepend(darray_t* stk) {
 
 // pack: Convert the whole stack to a list, then push that  
 bool op_pack(darray_t* stk) {
-  if (stk->size == 0) {
-    /* Push an empty list */
-    da_push(stk, dv_list(da_init()));
+  darray_t* list = da_init();
+  dvalue_t* val = NULL;
+
+  for (int i = 0; i < stk->size; i++) {
+    val = da_get(stk, i);
+    da_push(list, val);
   }
+
+  da_push(stk, dv_list(list));
   return true;
 }
 
@@ -464,12 +469,12 @@ bool op_do(darray_t* stk, darray_t* defs) {
   return true;
 }
 
-// loop: Execute the top list indefinitely  
+// loop: Pop the top list, execute it indefinitely  
 bool op_loop(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 1)) return false;
   if (da_top(stk)->t != LIST) { fprintf(stderr, "loop: expected list\n"); return false; }
 
-  darray_t* code = da_top(stk)->d.a;
+  darray_t* code = da_pop(stk)->d.a;
   while (1) { execute(code, stk, defs); }
 
   return true;
@@ -511,6 +516,24 @@ bool op_fi(darray_t* stk, darray_t* defs) {
   return true;
 }
 
+// call: Pop a symbol, execute it  
+bool op_call(darray_t* stk, darray_t* defs) {
+  if (!da_ensure(stk, 1)) return false;
+  if (da_top(stk)->t != SYMBOL) { fprintf(stderr, "call: expected symbol\n"); return false; }
+
+  dvalue_t* sym = da_pop(stk);
+
+  for (int i = 0; i < defs->size; i += 2) {
+    if (da_get(defs, i)->d.sym == sym->d.sym) {
+      execute((darray_t*)da_get(defs, i+1)->d.a, stk, defs);
+      return true;
+    }
+  }
+
+  fprintf(stderr, "call: unknown operation %s\n", symbol_decode(sym->d.sym));
+  return false;
+}
+
 //  
 // ## Stack management
 //  
@@ -547,6 +570,17 @@ bool op_dup(darray_t* stk) {
 
   dvalue_t* new = malloc(sizeof(dvalue_t));
   memcpy(new, da_top(stk), sizeof(dvalue_t));
+  da_push(stk, new);
+
+  return true;
+}
+
+// over: Duplicate the item below the top  
+bool op_over(darray_t* stk) {
+  if (!da_ensure(stk, 2)) return false;
+
+  dvalue_t* new = malloc(sizeof(dvalue_t));
+  memcpy(new, da_get(stk, -2), sizeof(dvalue_t));
   da_push(stk, new);
 
   return true;
@@ -616,7 +650,7 @@ bool op_type(darray_t* stk) {
 // ## Definition management
 //
 
-// def: Define a function
+// def: Define a function  
 bool op_def(darray_t* stk, darray_t* defs) {
   if (!da_ensure(stk, 2)) return false;
 
@@ -634,16 +668,16 @@ bool op_def(darray_t* stk, darray_t* defs) {
   }
 }
 
-// defs: Push a list of defined functions to the stack as symbols
+// defs: Push a list of defined functions to the stack as symbols  
 bool op_defs(darray_t* stk, darray_t* defs) {
   for (int i = 0; i < (defs->size/2); i++) {
-    da_push(stk, da_get(defs, i));
+    da_push(stk, da_get(defs, i*2));
   }
 
   return true;
 }
 
-// isdef: Push whether a symbol is defined as a function or not
+// isdef: Push whether a symbol is defined as a function or not  
 bool op_isdef(darray_t* stk, darray_t* defs) {
   for (int i = 0; i < (defs->size/2); i++) {
     if (da_top(stk)->d.sym == da_get(defs, i)->d.sym) {

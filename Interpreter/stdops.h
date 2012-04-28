@@ -55,11 +55,13 @@ bool op_do(darray_t* stk, darray_t* defs);
 bool op_loop(darray_t* stk, darray_t* defs);
 bool op_times(darray_t* stk, darray_t* defs);
 bool op_fi(darray_t* stk, darray_t* defs);
+bool op_call(darray_t* stk, darray_t* defs);
 
 bool op_pop(darray_t* stk);
 bool op_swap(darray_t* stk);
 bool op_cycle(darray_t* stk);
 bool op_dup(darray_t* stk);
+bool op_over(darray_t* stk);
 bool op_rev(darray_t* stk);
 bool op_dump(darray_t* stk);
 bool op_depth(darray_t* stk);
