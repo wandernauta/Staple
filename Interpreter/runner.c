@@ -65,6 +65,10 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "println") == 0)  { if(!op_println(stk))  return false; }
   else if (strcmp(op, "prompt") == 0)   { if(!op_prompt(stk))   return false; }
 
+  else if (strcmp(op, "def") == 0)      { if(!op_def(stk, d))   return false; }
+  else if (strcmp(op, "defs") == 0)     { if(!op_defs(stk, d))  return false; }
+  else if (strcmp(op, "isdef") == 0)    { if(!op_isdef(stk, d)) return false; }
+
   else if (strcmp(op, "type") == 0)     { if(!op_type(stk))     return false; }
 
   else if (strcmp(op, "if") == 0)       { if(!op_if())          return false; }
@@ -72,6 +76,13 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "exit") == 0)     { if(!op_exit())        return false; }
 
   else {
+    for (int i = 0; i < (d->size/2); i++) {
+      if (da_get(d, i)->d.sym == symbol_encode(op)) {
+        execute((darray_t*)da_get(d, i+1)->d.a, stk, d);
+        return true;
+      }
+    }
+
     fprintf(stderr, "Unknown operation %s\n", tok->d.s);
     return false;
   }

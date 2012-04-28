@@ -70,6 +70,10 @@ bool op_prompt(darray_t* stk);
 
 bool op_type(darray_t* stk);
 
+bool op_def(darray_t* stk, darray_t* defs);
+bool op_defs(darray_t* stk, darray_t* defs);
+bool op_isdef(darray_t* stk, darray_t* defs);
+
 bool op_if();
 bool op_nop();
 bool op_exit();

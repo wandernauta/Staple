@@ -68,8 +68,6 @@ darray_t* parse(char* code, darray_t* defs) {
     } else if (equals(tok, "]")) {
       // This ends a list. Return it.
       return out;
-    } else if (equals(tok, "def")) {
-      // This is a definition. Pop and store it.
     } else {
       // This is a call
       da_push(out, dv_op(tok));

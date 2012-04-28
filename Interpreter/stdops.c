@@ -169,7 +169,6 @@ bool op_append(darray_t* stk) {
 bool op_prepend(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
   dvalue_t* elem = da_pop(stk);
-  dvalue_t* list = da_top(stk);
 
   /* Make a new list */
   darray_t* new = da_init();
@@ -610,6 +609,51 @@ bool op_prompt(darray_t* stk) {
 bool op_type(darray_t* stk) {
   if (!da_ensure(stk, 1)) return false;
   da_push(stk, dv_int(da_top(stk)->t));
+  return true;
+}
+
+//
+// ## Definition management
+//
+
+// def: Define a function
+bool op_def(darray_t* stk, darray_t* defs) {
+  if (!da_ensure(stk, 2)) return false;
+
+  if (da_get(stk, -1)->t == LIST && da_get(stk, -2)->t == SYMBOL) {
+    dvalue_t* fun = da_pop(stk);
+    dvalue_t* sym = da_pop(stk);
+
+    da_push(defs, sym);
+    da_push(defs, fun);
+
+    return true;
+  } else {
+    fprintf(stderr, "def: expected (symbol, list)\n");
+    return false;
+  }
+}
+
+// defs: Push a list of defined functions to the stack as symbols
+bool op_defs(darray_t* stk, darray_t* defs) {
+  for (int i = 0; i < (defs->size/2); i++) {
+    da_push(stk, da_get(defs, i));
+  }
+
+  return true;
+}
+
+// isdef: Push whether a symbol is defined as a function or not
+bool op_isdef(darray_t* stk, darray_t* defs) {
+  for (int i = 0; i < (defs->size/2); i++) {
+    if (da_top(stk)->d.sym == da_get(defs, i)->d.sym) {
+      da_pop(stk);
+      da_push(stk, dv_bool(true));
+      return true;
+    }
+  }
+
+  da_push(stk, dv_bool(false));
   return true;
 }
 

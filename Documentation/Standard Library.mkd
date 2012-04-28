@@ -1,0 +1,75 @@
+## Basic arithmetic
+ 
+add (`+`): Pop two numbers, push their sum  
+sub (`-`): Pop two numbers, push the difference  
+mul (`*`): Pop two numbers, push the product  
+div (`/`): Pop two numbers, push the division  
+mod (`%`): Pop two numbers, push the remainder  
+sum: Pop while the top is a number, then push the sum  
+avg: Pop while the top is a number, then push the average  
+ 
+## List utilities
+ 
+cat: Concatenate two lists or strings  
+append: Pop an element, append it to the list below  
+prepend: Pop an element, prepend it to the list below  
+pack: Convert the whole stack to a list, then push that  
+unpack: Pop a list from the stack, then push its contents  
+head: Push a dupe of the first element of the list onto the stack  
+tail: Push a dupe of the last element of the list onto the stack  
+count: Push the number of elements in the list onto the stack  
+ 
+## Casting and conversion
+ 
+int: Convert an int, float, bool or string value to an integer  
+float: Convert an int, float, or string value to a floating point value  
+bool: Convert an integer to a bool  
+string: Convert anything to a string  
+symbol: Convert a string to a symbol  
+negate: Negate the topmost number or boolean  
+ 
+## Logic
+ 
+both: Pop two bools, push whether they are both true (logical AND)  
+either: Pop two bools, push whether either of them are true (logical OR)  
+true: Push a true boolean value onto the stack  
+false: Push a false boolean value onto the stack  
+ 
+## Comparison
+ 
+eq: Pop two elements, then push true if they are equal  
+gt: Pop two elements, then push true if the second is greater than the first  
+gt: Pop two elements, then push true if the second is lesser than the first  
+ 
+## Control structures
+ 
+do: Pop the top list, execute it  
+loop: Execute the top list indefinitely  
+times: Pop a list, execute it n times  
+fi: Pop a list, execute it if the new top is true  
+ 
+## Stack management
+ 
+pop: Unconditionally pop the top of the stack  
+swap: Exchange the top of the stack with the second element  
+cycle: Cycle the bottom of the stack to the top  
+dup: Duplicate the top of the stack  
+rev: Reverse the entire stack  
+dump: Print the entire stack  
+depth: Push a count of the number of elements on the stack  
+ 
+## Input/output
+ 
+print: Output the string on top  
+println: Output the string on top, then a newline  
+prompt: Ask the user for input, push it as a string  
+ 
+## Types and type handling
+ 
+type: Push the type of the top element as a number  
+ 
+## Miscellany
+ 
+if: Do nothing (like nop)  
+nop: Do nothing (like if)  
+exit: Exit immediately  
