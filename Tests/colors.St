@@ -16,7 +16,7 @@ defs pop
 
 " " println
 
-[
+depth [
   /* Call init. We want normal text. */
   :init call
 
@@ -28,6 +28,6 @@ defs pop
 
   /* Print a row of #'s */
   " # " [ " # " cat ] 40 times println
-] depth 1 swap - times
+] swap times
 
-" " println
+:init call " " println
