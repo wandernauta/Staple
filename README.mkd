@@ -5,8 +5,8 @@ Staple
 
 **Staple** is a minimalistic ('esoteric'), interpreted language based around
 stack manipulation. It resembles languages like Forth and Factor, but also
-takes ideas from the likes of Lisp (code is data in Staple) and Ruby (Staple
-has symbols). Everything (*everything*) in Staple is in postfix notation.
+takes ideas from the likes of Lisp (code is data in Staple) and Smalltalk
+(it has symbols). Everything (*everything*) in Staple is in postfix notation.
 
 ## What does Staple code look like?
 
@@ -30,7 +30,9 @@ Here's a program that calculates the circumference of a circle:
 
 Staple doesn't care about whether you use spaces, newlines or tabs, but
 whitespace is important in Staple. In other languages, `((4+2)==6)` may be
-perfectly valid - in Staple, it's `4 2 + 6 eq`, not `4 2+6 eq`.
+perfectly valid - in Staple, it's `4 2 + 6 eq`. Even the spaces around
+double quotes are non-optional (although that may change in the near
+future).
 
 Staple will never automagically cast values from one type to another (not
 even integers to floating point values or booleans to integers).
@@ -38,7 +40,10 @@ even integers to floating point values or booleans to integers).
 Everything in Staple is in postfix notation. 'if' is a no-op that exists
 for readability reasons, and carries no meaning at all for Staple.
 
-## Building
+## Building and contributing
 
 To build the interpreter, just run `make` in the Interpreter directory.
 There is no `./configure`.
+
+The Staple interpreter is released under the MIT license. Contributions
+are more than welcome, as are bug reports. Fork away!
