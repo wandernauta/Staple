@@ -157,7 +157,7 @@ bool op_trunc(darray_t* stk) {
 bool op_abs(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != INTEGER) { fprintf(stderr, "abs: expected integer\n"); return false; }
-  da_push(stk, dv_float(abs(da_pop(stk)->d.f)));
+  da_push(stk, dv_int(abs(da_pop(stk)->d.i)));
   return true;
 }
 
