@@ -868,3 +868,34 @@ bool op_exit() {
   exit(EXIT_SUCCESS);
   return true;
 }
+
+// assert: Pop a list, execute it, then print an error message if it doesn't return true
+bool op_assert(darray_t* stk, darray_t* defs) {
+  if (!da_ensure(stk, 1)) return false;
+  if (!(da_get(stk, -1)->t == LIST)) {
+    fprintf(stderr, "assert: expected list to execute\n");
+    return false;
+  }
+
+  op_dup(stk);
+  op_string(stk);
+  op_swap(stk);
+  op_do(stk, defs);
+
+  if (!da_ensure(stk, 1)) return false;
+  if (!(da_get(stk, -1)->t == BOOL)) {
+    fprintf(stderr, "assert: expected result to be boolean\n");
+    return false;
+  }
+
+  bool cond = da_top(stk)->d.b; da_pop(stk);
+
+  if (!cond) {
+    fprintf(stderr, "assert: assertion failed: %s\n", da_pop(stk)->d.s);
+    exit(EXIT_FAILURE);
+  } else {
+    da_pop(stk); /* Pop the string description of the function */
+  }
+
+  return true;
+}

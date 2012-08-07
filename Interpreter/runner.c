@@ -91,6 +91,7 @@ bool handle_op(dvalue_t* tok, darray_t* stk, darray_t* d) {
   else if (strcmp(op, "if") == 0)       { if(!op_if())          return false; }
   else if (strcmp(op, "nop") == 0)      { if(!op_nop())         return false; }
   else if (strcmp(op, "exit") == 0)     { if(!op_exit())        return false; }
+  else if (strcmp(op, "assert") == 0)   { if(!op_assert(stk, d))return false; }
 
   else {
     for (int i = 0; i < d->size; i += 2) {

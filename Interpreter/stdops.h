@@ -95,3 +95,4 @@ bool op_isdef(darray_t* stk, darray_t* defs);
 bool op_if();
 bool op_nop();
 bool op_exit();
+bool op_assert();

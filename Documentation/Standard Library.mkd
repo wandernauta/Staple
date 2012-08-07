@@ -98,3 +98,4 @@ isdef: Push whether a symbol is defined as a function or not
 if: Do nothing (like nop)  
 nop: Do nothing (like if)  
 exit: Exit immediately  
+assert: Pop a list, execute it, then print an error message if it doesn't return true
