@@ -1,0 +1,1 @@
+[ 1 2 3 depth 3 eq ] assert

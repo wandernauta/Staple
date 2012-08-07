@@ -1,0 +1,1 @@
+[ 1.5 floor 1.0 eq ] assert

@@ -1,0 +1,1 @@
+[ false negate true eq ] assert

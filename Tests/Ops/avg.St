@@ -1,0 +1,1 @@
+[ 4 5 6 avg 5 eq] assert

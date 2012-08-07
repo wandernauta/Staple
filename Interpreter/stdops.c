@@ -38,12 +38,12 @@ bool op_sub(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_pop(stk);
     dvalue_t* two = da_pop(stk);
+    dvalue_t* one = da_pop(stk);
     da_push(stk, dv_int(one->d.i - two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_pop(stk);
     dvalue_t* two = da_pop(stk);
+    dvalue_t* one = da_pop(stk);
     da_push(stk, dv_float(one->d.f - two->d.f));
   } else {
     fprintf(stderr, "sub: expected (int, int) or (float, float)\n");
@@ -78,12 +78,12 @@ bool op_div(darray_t* stk) {
   if (!da_ensure(stk, 2)) return false;
 
   if (da_get(stk, -1)->t == INTEGER && da_get(stk, -2)->t == INTEGER) {
-    dvalue_t* one = da_pop(stk);
     dvalue_t* two = da_pop(stk);
+    dvalue_t* one = da_pop(stk);
     da_push(stk, dv_int(one->d.i / two->d.i));
   } else if (da_get(stk, -1)->t == FLOAT && da_get(stk, -2)->t == FLOAT) {
-    dvalue_t* one = da_pop(stk);
     dvalue_t* two = da_pop(stk);
+    dvalue_t* one = da_pop(stk);
     da_push(stk, dv_float(one->d.f / two->d.f));
   } else {
     fprintf(stderr, "div: expected (int, int) or (float, float)\n");

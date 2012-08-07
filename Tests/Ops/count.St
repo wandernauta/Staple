@@ -1,0 +1,1 @@
+[ [ :a :b :c ] count 3 eq ] assert

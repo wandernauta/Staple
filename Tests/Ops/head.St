@@ -1,0 +1,1 @@
+[ [ :a :b :c ] head :a eq ] assert

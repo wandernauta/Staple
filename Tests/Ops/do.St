@@ -1,0 +1,1 @@
+[ [ true ] do ] assert

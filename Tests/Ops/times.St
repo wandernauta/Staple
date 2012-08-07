@@ -1,0 +1,1 @@
+[ [ ] [ true append ] 10 times count 10 eq ] assert

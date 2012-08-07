@@ -1,0 +1,1 @@
+[ 1 float 1.0 eq ] assert

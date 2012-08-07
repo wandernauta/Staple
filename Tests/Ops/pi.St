@@ -1,0 +1,1 @@
+[ pi type 3.14 type eq ] assert

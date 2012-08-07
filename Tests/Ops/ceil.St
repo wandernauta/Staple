@@ -1,0 +1,1 @@
+[ 1.001 ceil 2.0 eq ] assert

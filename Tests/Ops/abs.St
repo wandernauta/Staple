@@ -1,0 +1,1 @@
+[ -10 abs 10 eq ] assert

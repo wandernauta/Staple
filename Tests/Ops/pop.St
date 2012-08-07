@@ -1,0 +1,1 @@
+[ 10 pop [ :sym ] pop " str " pop depth 1 eq ] assert

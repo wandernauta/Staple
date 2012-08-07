@@ -1,0 +1,1 @@
+[ 10 dup 2 * + 30 eq ] assert

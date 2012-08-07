@@ -1,0 +1,1 @@
+[ [ :a ] [ :b ] cat count 2 eq ] assert

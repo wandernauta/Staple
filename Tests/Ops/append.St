@@ -1,0 +1,1 @@
+[ [ :a :b :c ] :d append count 4 eq ] assert

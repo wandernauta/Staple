@@ -1,0 +1,1 @@
+[ [ 1 2 3 ] rev head 3 eq ] assert
