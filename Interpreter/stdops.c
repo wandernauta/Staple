@@ -129,6 +129,7 @@ bool op_avg(darray_t* stk) {
 // ## More advanced maths
 //
 
+// ceil: Pop a float, then round it up
 bool op_ceil(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "ceil: expected float\n"); return false; }
@@ -136,6 +137,7 @@ bool op_ceil(darray_t* stk) {
   return true;
 }
 
+// floor: Pop a float, then round it down
 bool op_floor(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "floor: expected float\n"); return false; }
@@ -143,6 +145,7 @@ bool op_floor(darray_t* stk) {
   return true;
 }
 
+// trunc: Pop a float, then truncate it (round toward zero)
 bool op_trunc(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "trunc: expected float\n"); return false; }
@@ -150,6 +153,7 @@ bool op_trunc(darray_t* stk) {
   return true;
 }
 
+// abs: Pop an integer, push its absolute value
 bool op_abs(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != INTEGER) { fprintf(stderr, "abs: expected integer\n"); return false; }
@@ -157,6 +161,7 @@ bool op_abs(darray_t* stk) {
   return true;
 }
 
+// exp: Pop a float x, calculate e^x, push the result
 bool op_exp(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "exp: expected float\n"); return false; }
@@ -164,11 +169,13 @@ bool op_exp(darray_t* stk) {
   return true;
 }
 
+// pi: Push pi (about 3.14)
 bool op_pi(darray_t* stk) {
   da_push(stk, dv_float(M_PI));
   return true;
 }
 
+// sin: Pop a float, calculate its sine (radians)
 bool op_sin(darray_t* stk) {
   da_ensure(stk, 1);
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "sin: expected float\n"); return false; }
@@ -176,24 +183,28 @@ bool op_sin(darray_t* stk) {
   return true;
 }
 
+// sin: Pop a float, calculate its cosine (radians)
 bool op_cos(darray_t* stk) {
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "cos: expected float\n"); return false; }
   da_push(stk, dv_float(cos(da_pop(stk)->d.f)));
   return true;
 }
 
+// sin: Pop a float, calculate its tangent (radians)
 bool op_tan(darray_t* stk) {
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "tan: expected float\n"); return false; }
   da_push(stk, dv_float(tan(da_pop(stk)->d.f)));
   return true;
 }
 
+// log: Pop a float, push its natural logarithm
 bool op_log(darray_t* stk) {
   if (da_top(stk)->t != FLOAT) { fprintf(stderr, "log: expected float\n"); return false; }
   da_push(stk, dv_float(log(da_pop(stk)->d.f)));
   return true;
 }
 
+// pow: Pop two floats a and b, push a^b
 bool op_pow(darray_t* stk) {
   if (da_top(stk)->t != FLOAT || da_get(stk, -2)->t != FLOAT) { fprintf(stderr, "pow: expected (float, float)\n"); return false; }
   dvalue_t* y = da_pop(stk);
@@ -204,6 +215,7 @@ bool op_pow(darray_t* stk) {
   return true;
 }
 
+// hypot: Pop two floats a and b, push sqrt(x*x+y*y)
 bool op_hypot(darray_t* stk) {
   if (da_top(stk)->t != FLOAT || da_get(stk, -2)->t != FLOAT) { fprintf(stderr, "hypot: expected (float, float)\n"); return false; }
   dvalue_t* y = da_pop(stk);

@@ -3,8 +3,8 @@ all: Interpreter Documentation
 Interpreter:
 	cd Interpreter && $(MAKE)
 
-Documentation: Documentation/Stdlib.mkd
-Documentation/Stdlib.mkd: Interpreter/stdops.c
+Documentation: Documentation/Standard?Library.mkd
+Documentation/Standard?Library.mkd: Interpreter/stdops.c
 	./Support/mkstdlibdoc.sh
 
 check:

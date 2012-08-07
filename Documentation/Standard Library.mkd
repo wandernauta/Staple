@@ -10,6 +10,18 @@ avg: Pop while the top is a number, then push the average
 
 ## More advanced maths
 
+ceil: Pop a float, then round it up
+floor: Pop a float, then round it down
+trunc: Pop a float, then truncate it (round toward zero)
+abs: Pop an integer, push its absolute value
+exp: Pop a float x, calculate e^x, push the result
+pi: Push pi (about 3.14)
+sin: Pop a float, calculate its sine (radians)
+sin: Pop a float, calculate its cosine (radians)
+sin: Pop a float, calculate its tangent (radians)
+log: Pop a float, push its natural logarithm
+pow: Pop two floats a and b, push a^b
+hypot: Pop two floats a and b, push sqrt(x*x+y*y)
  
 ## List utilities
  

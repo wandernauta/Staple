@@ -1,4 +1,4 @@
-CFLAGS ?= -Wall -Wextra -pedantic -g
+CFLAGS ?= -Wall -Wextra -pedantic -g -Os -std=c99
 
 all: staple tags
 staple: darray.o dvalue.o parser.o runner.o staple.o stdops.o symenc.o vendor/linenoise.o
@@ -21,6 +21,6 @@ check:
 	find . -name \*.c -or -name \*.h -exec cppcheck --enable=all -q {} \;
 
 tags: $(wildcard *.c) $(wildcard *.h)
-	@ctags *.c *.h
+	ctags -w *.c *.h
 
 .PHONY: clean check
