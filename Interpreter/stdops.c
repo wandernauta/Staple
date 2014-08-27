@@ -171,7 +171,7 @@ bool op_exp(darray_t* stk) {
 
 // pi: Push pi (about 3.14)
 bool op_pi(darray_t* stk) {
-  da_push(stk, dv_float(M_PI));
+  da_push(stk, dv_float(3.14159265359));
   return true;
 }
 
